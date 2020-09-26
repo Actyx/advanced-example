@@ -1,0 +1,7 @@
+node_modules
+build
+dist
+.cache
+*.tar.gz
+timeline.md
+src/machine

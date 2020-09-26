@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "maxLength": 16,
+      "minLength": 4,
+      "type": "string"
+    },
+    "plcIp": {
+      "format": "ipv4",
+      "type": "string"
+    }
+  },
+  "required": ["name", "plcIp"],
+  "type": "object"
+}
