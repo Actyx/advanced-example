@@ -1,9 +1,10 @@
 # Demo Machine Integration
 
-This Project is a very trivial but common use-case in factories.
+This Project is a very trivial but a common use-case in factories.
+
 You have a number of machines with already existing PLC programs installed, a more or less well documented API and the requirement to show the state of the machines on a dashboard. Last but not lest the current task should be traced as well.
 
-The Setup looks like that:
+## The Setup looks like that
 
 ```text
                      Dashboard
