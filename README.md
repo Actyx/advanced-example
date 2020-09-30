@@ -13,6 +13,7 @@ The Setup looks like that:
                 | 1 idle      | 1 active    |
                 | 2 active    | 2 idle      |
                 | ...         | 3 ...       |
+                |             |             |
                 |_____________|_____________|
 
 
@@ -27,8 +28,8 @@ The Setup looks like that:
   |_________________________|               |__________________________|
 
 
-                       sm
-                 ______________
+                  smartphone
+                 _____________
                 |             |
                 |  Machines   |
                 | 1 idle      |
@@ -42,16 +43,6 @@ The Setup looks like that:
                 | 3 ...       |
                 |_____________|
 
-
-
-|_____________|
-|             |
-|  Tasks      |
-| 1 active    |
-| 2 idle      |
-| 3 ...       |
-|_____________|
-
 ```
 
-(with many comments)
+TODO: continue here
