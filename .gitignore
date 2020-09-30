@@ -3,5 +3,6 @@ build
 dist
 .cache
 *.tar.gz
+*.tgz
 timeline.md
 src/machine
