@@ -14,12 +14,11 @@
 #
 # Any questions (contact me (Alex))
 
-echo "Reset Demo kit"
-echo ""
+printf "Reset Demo kit\n\n"
 
 if [ $# -ne 1 ]; then
-  echo "Missing parameter for topic prefix (actyx-demo-   )"
-  echo "Example: ./resetDemo.sh 12"
+  printf "Missing parameter for topic prefix (actyx-demo-   )\n"
+  printf "Example: \e[37m./resetDemo.sh 12\e[0m\n"
   exit -1
 fi
 
@@ -27,24 +26,28 @@ newTopic=actyx-demo-$1
 
 # param 1 ip
 stop_all_apps() {
+  printf "  stop"
   ax -j apps ls --local $1 | jq .result[].appId -r | while read line; do
-    echo "  stop $line"
+    printf " \e[37m$line\e[0m"
     ax -j apps stop $line --local $1>/dev/null
   done
 
+  printf "\n"
   wait_for_stopped $1
 }
 # param 1 ip
 undeploy_all_apps() {
   stop_all_apps $1
+  printf "  undeploy"
   ax -j apps ls --local $1 | jq .result[].appId -r | while read line; do
-    echo "  stop $line"
+    printf " \e[37m$line\e[0m"
     ax -j apps undeploy $line --local $1>/dev/null
   done
+  printf "\n"
 }
 # param 1 ip
 wait_for_stopped() {
-  echo "  waiting till all apps are stopped"
+  printf "  waiting till all apps are stopped"
   while [ true ] ; do
     if [ -z "$(ax apps ls --local $1 | grep RUNNING)" ]; then
       break
@@ -52,8 +55,8 @@ wait_for_stopped() {
       sleep 1
     fi
   done
-  echo "  all apps are stopped"
-      sleep 2
+  printf " \e[32mall apps are stopped\e[0m \n"
+  sleep 2
 }
 # param 1 ip
 # param 2 topic
@@ -62,47 +65,54 @@ update_topic () {
   ax settings set com.actyx.os/services/eventService/topic $2 --local $1 >/dev/null
 }
 
-echo "Update Demo-Kit to new topic: $newTopic"
-echo "Please check if all devices are switched on and connected"
-echo "confirm with any key"
-read -n 1
-echo ""
-echo "Change topic of machine 2 first"
+# param 1 ip
+check_online() {
+  while ! timeout 1 ping -c 1 -n $1 &> /dev/null; do
+    sleep 1
+  done
+}
+
+printf "Update Demo-Kit to new topic: \e[32m$newTopic\e[0m\n"
+printf "Please check if all devices are switched on and connected\n"
+printf "  - check Tablet 1 "
+check_online 192.168.0.100
+printf "\e[32mavailable\e[0m \n  - check Tablet 2 "
+check_online 192.168.0.102
+printf "\e[32mavailable\e[0m \n  - check Smartphone "
+check_online 192.168.0.101
+printf "\e[32mavailable\e[0m \n  - check Machine 1 "
+check_online 192.168.0.103
+printf "\e[32mavailable\e[0m \n  - check machine 2 "
+check_online 192.168.0.105
+printf "\e[32mavailable\e[0m \n\n"
+printf "Change topic of \e[37machine 2\e[0m first\n"
 update_topic 192.168.0.105 $newTopic
-echo "Machine 2 start application (machine)"
+printf "Machine 2 start application (machine)\n"
 ax apps start machine --local 192.168.0.105
-echo "Machine 2 done"
-echo ""
-echo "IMPORTANT: Disconnect Machine 2 now from the network"
-while timeout 1 ping -c 1 -n 192.168.0.103 &> /dev/null; do
+printf "  \e[32mdone\e[0m \n\n"
+printf "\e[31mIMPORTANT:\e[0m Disconnect \e[37mMachine 2\e[0m now from the network\n"
+while timeout 1 ping -c 1 -n 192.168.0.105 &> /dev/null; do
   sleep 1
   printf "."
 done
 
-echo ""
-echo ""
-echo "Change topic of table 1"
+printf "\n\n\n"
+printf "Change topic of \e[37mtable 1\e[0m\n"
 update_topic 192.168.0.100 $newTopic
-echo "  done"
-echo ""
-echo "Change topic of table 1"
+printf "  \e[32mdone\e[0m\n\n"
+printf "Change topic of \e[37mtable 2\e[0m\n"
 update_topic 192.168.0.102 $newTopic
-echo "  done"
-echo ""
-echo "Change topic of smart phone"
+printf "  \e[32mdone\e[0m\n\n"
+printf "Change topic of \e[37msmartphone\e[0m\n"
 undeploy_all_apps 192.168.0.101
 update_topic 192.168.0.101 $newTopic
-echo "  done"
+printf "  \e[32mdone\e[0m\n\n"
 
-echo "Change topic of Machine 1"
+printf "Change topic of \e[37mMachine 1\e[0m\n"
 update_topic 192.168.0.103 $newTopic
-echo "Machine 1 start application (wago-connector)"
+printf "Machine 1 start application (wago-connector)\n"
 ax apps start wago-connector --local 192.168.0.103
 sleep 5
-echo "  done"
+printf "  \e[32mdone\e[0m\n\n\n\n\n"
 
-echo ""
-echo ""
-echo ""
-echo ""
-echo "Have fun!!"
+printf "\e[32mHave fun!!\e[0m\n"
