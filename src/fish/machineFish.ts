@@ -5,20 +5,20 @@ import { Tag, Fish, FishId } from '@actyx/pond'
  * Very minimal integration to represent the state of a machine or get
  * a list of all existing machine names.
  *
- * Events: SetStateEvent, TaskStartedEvent, TaskFinishedEvent
+ * Events: SetStateEvent, OrderStartedEvent, OrderFinishedEvent
  * Tags: machine, machine-state
  * Fish: MachineFish.of('name'), MachineFish.registry
  */
 
 /**
- * Data type to define the content of a task
+ * Data type to define the content of a order
  */
-export type Task = {
-  /** Task name */
+export type Order = {
+  /** Order name */
   name: string
-  /** duration how long the task needs to be processed */
+  /** duration how long the order needs to be processed */
   duration: number
-  /** machine to process this task */
+  /** machine to process this order */
   machine: string
 }
 
@@ -32,7 +32,7 @@ export type Task = {
  * default state to create the MachineFish
  *
  * This will be the initial state of the fish and he will iterate over the
- * incoming events. It is valide to create any fish you like. (TaskFish.of(uuid.v4()))
+ * incoming events. It is valide to create any fish you like. (OrderFish.of(uuid.v4()))
  * Fish with not events will stay in this state and you get this state as result.
  */
 export type UndefinedState = {
@@ -62,29 +62,29 @@ export type IdleState = {
   name: string
 }
 /**
- * If the machine is working on a task the fish should be in this state
- * and keep the current task
+ * If the machine is working on a order the fish should be in this state
+ * and keep the current order
  */
 export type ActiveState = {
   stateType: 'active'
   name: string
-  task: Task
+  order: Order
 }
 /**
- * If the machine finished a task the fish should be in this state
- * and keep the completed task.
+ * If the machine finished a order the fish should be in this state
+ * and keep the completed order.
  */
 export type FinishState = {
   stateType: 'finish'
   name: string
-  task: Task
+  order: Order
 }
 /**
  * union type with all Idle states
  */
 export type IdleStates = EmergencyState | DisabledState | IdleState
 /**
- * union type with states when the machine has and assigned task
+ * union type with states when the machine has and assigned order
  */
 export type RunningState = ActiveState | FinishState
 
@@ -133,36 +133,36 @@ export type SetStateEvent = {
 }
 
 /**
- * Event when the machine started an task
- * machine: machine who started the task
- * task: task data, to know what task the machine is working on.
+ * Event when the machine started an order
+ * machine: machine who started the order
+ * order: order data, to know what order the machine is working on.
  *
- * If the task data changed before the machine started, but the machine
+ * If the order data changed before the machine started, but the machine
  * did not get the information in the reason of a network outtage, it would
- * be hardly possible to know the task data
+ * be hardly possible to know the order data
  */
-export type TaskStartedEvent = {
+export type OrderStartedEvent = {
   eventType: 'started'
   machine: string
-  task: Task
+  order: Order
 }
 /**
- * Event when the machine finished an task
- * machine: machine who finished the task
- * task: task data, to know what task the machine did.
+ * Event when the machine finished an order
+ * machine: machine who finished the order
+ * order: order data, to know what order the machine did.
  *
- * please see TaskStartedEvent
+ * please see OrderStartedEvent
  */
-export type TaskFinishedEvent = {
+export type OrderFinishedEvent = {
   eventType: 'finished'
   machine: string
-  task: Task
+  order: Order
 }
 
 /**
  * union type All expected events the MachineFish will get from the store
  */
-export type Event = SetStateEvent | TaskStartedEvent | TaskFinishedEvent
+export type Event = SetStateEvent | OrderStartedEvent | OrderFinishedEvent
 
 // ----------------------------------------------------------------------
 // |                                                                    |
@@ -236,12 +236,12 @@ export const MachineFish = {
      * not reject it.
      *
      * The started and the finished event is handled the same way. The
-     * fact that e machine starts the task and finished the task could
+     * fact that e machine starts the order and finished the order could
      * not be refused. It just happened.
      *
-     * the finish case is a perfect example for the reason to add the task
+     * the finish case is a perfect example for the reason to add the order
      * to the event.
-     * if you use the `state.task` in this case. it could be wrong.
+     * if you use the `state.order` in this case. it could be wrong.
      */
     onEvent: (state, event) => {
       switch (event.eventType) {
@@ -253,13 +253,13 @@ export const MachineFish = {
         case 'started':
           return {
             stateType: 'active',
-            task: event.task,
+            order: event.order,
             name,
           }
         case 'finished':
           return {
             stateType: 'finish',
-            task: event.task,
+            order: event.order,
             name,
           }
         default:
@@ -283,7 +283,7 @@ export const MachineFish = {
     where: tags.state,
     /**
      * Add the machine key to the map.
-     * See the other example in the task fish, how to remove it again
+     * See the other example in the order fish, how to remove it again
      */
     onEvent: (state, event) => {
       if (event.eventType === 'setState') {

@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { useRegistryFish } from '@actyx-contrib/react-pond'
 import { Typography } from '@actyx/industrial-ui'
-import { TaskFish } from '../fish/taskFish'
+import { OrderFish } from '../fish/orderFish'
 
-export const Tasks = () => {
-  // Get all task states with the useRegistryFish if a state change or the registry change. The component get redrawn
-  const tasks = useRegistryFish(TaskFish.registry, Object.keys, TaskFish.of)
+export const Orders = () => {
+  // Get all order states with the useRegistryFish if a state change or the registry change. The component get redrawn
+  const orders = useRegistryFish(OrderFish.registry, Object.keys, OrderFish.of)
   // This component get drawn for each entry in the machines array and just shows the state of the machine
   return (
     <div>
-      {tasks
+      {orders
         .map((s) => {
           console.log(s)
           return s
@@ -24,11 +24,11 @@ export const Tasks = () => {
               margin: '15px 5px',
             }}
           >
-            {/* this check will never fail. But technically, a task fish could be in the undefined state */}
+            {/* this check will never fail. But technically, a order fish could be in the undefined state */}
             {m.state.stateType !== 'undefined' && (
               <>
                 {/* in the `props` you will get the properties provided to the fish factory */}
-                <Typography variant="distance">Task: {m.props}</Typography>
+                <Typography variant="distance">Order: {m.props}</Typography>
                 <br />
                 {/* display some interesting data to the user */}
                 <div style={{ display: 'flex' }}>

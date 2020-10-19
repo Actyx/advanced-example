@@ -2,7 +2,7 @@
 | ------------------ | ------ | ------ |
 | setup              | 1 Min  | 1 Min  |
 | MachineFish + reg  | 14 Min | 13 Min |
-| TaskFish + reg     | 25 Min | 11 Min |
+| OrderFish + reg     | 25 Min | 11 Min |
 | Order-system       | 37 Min | 12 Min |
 | Dashboard          | 55 Min | 18 Min |
 | Style + testing    | 1:04 H | 9 Min  |

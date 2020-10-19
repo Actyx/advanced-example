@@ -1,8 +1,8 @@
 manifestVersion: '1.0'
 type: web
-id: task-system
+id: order-system
 version: 1.0.0
-displayName: task-system
+displayName: order-system
 description: '@ToDo: description'
 #icon: ./app-icon.png # Specifying the app icon is optional. If you don't specify an icon for your app, ActyxOS will automatically use a default icon.
 dist: release

@@ -1,7 +1,7 @@
 import { client, t } from 'netvar'
 import { Pond } from '@actyx/pond'
 import { RxPond } from '@actyx-contrib/rx-pond'
-import { TaskFish, State as TaskState } from '../fish/taskFish'
+import { OrderFish, State as OrderState } from '../fish/orderFish'
 import { MachineFish, State as MachineState } from '../fish/machineFish'
 import { combineLatest, of } from 'rxjs'
 import { switchMap, map } from 'rxjs/operators'
@@ -37,12 +37,12 @@ const plcIp = settings.plcIp
 // define tags as shortcut
 const machineTag = MachineFish.tags.machine.withId(machineName)
 const stateTag = MachineFish.tags.state.withId(machineName)
-const taskTags = (id: string) =>
-  TaskFish.tags.task.withId(id).and(TaskFish.tags.taskForMachine.withId(machineName))
+const orderTags = (id: string) =>
+  OrderFish.tags.order.withId(id).and(OrderFish.tags.orderForMachine.withId(machineName))
 
 // global vars to represent the...
-/** all to this machine assigned tasks */
-let availableTasks = [] as TaskState[]
+/** all to this machine assigned orders */
+let availableOrders = [] as OrderState[]
 /** the state of the local machine */
 let machineState: MachineState = { stateType: 'undefined', name: machineName }
 /** the current timer to simulate the work */
@@ -84,20 +84,20 @@ const observeAll = <RS, S, P, E>(
 Pond.default().then(async (pond) => {
   console.log(`started ${machineName} plc ip: ${plcIp}`)
 
-  // subscribe to the TaskRegistry and get all current active task assigned to this machine
-  observeAll(pond, TaskFish.availableTasksFor(machineName), Object.keys, TaskFish.of).subscribe(
-    (tasks) => {
-      if (availableTasks.length !== tasks.length) {
+  // subscribe to the OrderRegistry and get all current active order assigned to this machine
+  observeAll(pond, OrderFish.availableOrdersFor(machineName), Object.keys, OrderFish.of).subscribe(
+    (orders) => {
+      if (availableOrders.length !== orders.length) {
         // use the netvar list 3 to update the network variable in the PLC
         list3.setMore({
-          // if there is a task set the taskAvailable to high
-          taskAvailable: tasks.length > 0,
-          // if there are more tasks available set the moreTasksAvailable to high
-          moreTasksAvailable: tasks.length > 1,
+          // if there is a order set the orderAvailable to high
+          orderAvailable: orders.length > 0,
+          // if there are more orders available set the moreOrdersAvailable to high
+          moreOrdersAvailable: orders.length > 1,
         })
       }
-      // update the global var in this app to start the fist task on button click
-      availableTasks = tasks
+      // update the global var in this app to start the fist order on button click
+      availableOrders = orders
     },
   )
 
@@ -113,22 +113,22 @@ Pond.default().then(async (pond) => {
   pond.observe(MachineFish.of(machineName), (state) => {
     // this log will appear in the node-manager or in the `ax logs tail ...` output
     console.log('machine state', state)
-    // if the machine is active a timer should be active to execute the task
+    // if the machine is active a timer should be active to execute the order
     if (state.stateType === 'active') {
-      const { duration, name } = state.task
+      const { duration, name } = state.order
 
-      // emit an event that the task is started now
-      pond.emit(taskTags(name), { eventType: 'started', machine: machineName, name })
+      // emit an event that the order is started now
+      pond.emit(orderTags(name), { eventType: 'started', machine: machineName, name })
 
       currentTimer = setTimeout(() => {
-        // if the task is done, a event is emitted that the machine finished the task
+        // if the order is done, a event is emitted that the machine finished the order
         pond.emit(machineTag, {
           eventType: 'finished',
-          task: state.task,
+          order: state.order,
           machine: machineName,
         })
-        // the same for the task.
-        pond.emit(taskTags(name), { eventType: 'finished', name })
+        // the same for the order.
+        pond.emit(orderTags(name), { eventType: 'finished', name })
       }, duration * 1000)
     }
 
@@ -161,16 +161,16 @@ Pond.default().then(async (pond) => {
       case 'emergency': {
         // if the emergency is changed to 'PRESSED'
         if (value) {
-          // top the current task
+          // top the current order
           if (machineState.stateType === 'active') {
-            // stop the current task
+            // stop the current order
             currentTimer && clearTimeout(currentTimer)
             currentTimer = undefined
 
-            // replace the task to make him fresh
-            pond.emit(taskTags(machineState.task.name), {
+            // replace the order to make him fresh
+            pond.emit(orderTags(machineState.order.name), {
               eventType: 'placed',
-              ...machineState.task,
+              ...machineState.order,
             })
           }
           // emit the event that the state changed to emergency
@@ -199,26 +199,26 @@ Pond.default().then(async (pond) => {
           // set the state corresponding to the new value
           state: value ? 'idle' : 'disabled',
         })
-        // additionally, stop the task and set it back to idle
+        // additionally, stop the order and set it back to idle
         if (!value && machineState.stateType === 'active') {
           currentTimer && clearTimeout(currentTimer)
           currentTimer = undefined
 
-          // replace the task to make him fresh
-          pond.emit(taskTags(machineState.task.name), { eventType: 'placed', ...machineState.task })
+          // replace the order to make him fresh
+          pond.emit(orderTags(machineState.order.name), { eventType: 'placed', ...machineState.order })
         }
         return
       case 'working':
         // if the working button get pressed
         if (value) {
-          // if the machine is in the idle state and there is something to do, start a new task
-          if (machineState.stateType === 'idle' && availableTasks.length > 0) {
-            // get the first available task
-            const [nextTask] = availableTasks
+          // if the machine is in the idle state and there is something to do, start a new order
+          if (machineState.stateType === 'idle' && availableOrders.length > 0) {
+            // get the first available order
+            const [nextOrder] = availableOrders
             // validate it
-            if (nextTask && nextTask.stateType !== 'undefined') {
+            if (nextOrder && nextOrder.stateType !== 'undefined') {
               // emit a event that the machine state changed
-              pond.emit(machineTag, { eventType: 'started', machine: machineName, task: nextTask })
+              pond.emit(machineTag, { eventType: 'started', machine: machineName, order: nextOrder })
             }
           }
 
@@ -264,8 +264,8 @@ Pond.default().then(async (pond) => {
     },
     // define the fields of the network variable list from the PLC
     {
-      taskAvailable: t.boolean(0),
-      moreTasksAvailable: t.boolean(1),
+      orderAvailable: t.boolean(0),
+      moreOrdersAvailable: t.boolean(1),
       workStarted: t.boolean(2),
       workDone: t.boolean(3),
     },

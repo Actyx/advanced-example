@@ -28,13 +28,13 @@ export const Machines = () => {
           {(m.state.stateType === 'active' || m.state.stateType === 'finish') && (
             <div style={{ display: 'flex' }}>
               <div style={{ flex: '1' }}>
-                <Typography variant="standard">current task:</Typography>{' '}
+                <Typography variant="standard">current order:</Typography>{' '}
                 <Typography variant="standard" bold>
-                  {m.state.task.name}
+                  {m.state.order.name}
                 </Typography>
               </div>
               <div style={{ flex: '1' }}>
-                <Typography variant="standard">duration: {m.state.task.duration}</Typography>
+                <Typography variant="standard">duration: {m.state.order.duration}</Typography>
               </div>
             </div>
           )}
