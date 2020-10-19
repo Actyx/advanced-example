@@ -47,7 +47,7 @@ export type RegState = Record<string, boolean>
 // !
 
 /**
- * Event when a new order/Order is placed on the shop-floor
+ * Event when a new order is placed on the shop-floor
  */
 export type PlacedEvent = {
   eventType: 'placed'
@@ -56,7 +56,7 @@ export type PlacedEvent = {
   machine: string
 }
 /**
- * Event, when a machine start the work on this order/order
+ * Event, when a machine start the work on this order
  */
 export type StartedEvent = {
   eventType: 'started'
@@ -64,7 +64,7 @@ export type StartedEvent = {
   machine: string
 }
 /**
- * Event, when a machine finished the order/order
+ * Event, when a machine finished the order
  */
 export type FinishedEvent = {
   eventType: 'finished'
