@@ -1,49 +1,27 @@
-# Demo Machine Integration
+# TODO: Insert Title
 
-This Project is a very trivial but a common use-case in factories.
+This repository contains the example code for *TODO: insert tutorial title and link to it*.
 
-You have a number of machines with already existing PLC programs installed, a more or less well documented API and the requirement to show the state of the machines on a dashboard. Last but not lest the current task should be traced as well.
+It consists of three applications:
 
-## The Setup looks like that
+**ERP Simulator App**
 
-```text
-                     Dashboard
-                 ___________________________
-                |             |             |
-                |  Machines   |  Tasks      |
-                | 1 idle      | 1 active    |
-                | 2 active    | 2 idle      |
-                | ...         | 3 ...       |
-                |             |             |
-                |_____________|_____________|
+Runs on a mobile phone or tablet and lets the user create and manage production orders.
 
+The code can be found in `src/task-system`.
 
-  Machine                                     Task-System
-   _________________________                 __________________________
-  |                         |               |                          |
-  |  On     Tasks     More  |               |  Name     _____________  |
-  |   o       o        o    |               |  Duration |5|10|20| sec  |
-  |                         |               |  Machine  |M1|M2|...|    |
-  | on/off  Start    Error  |               |                          |
-  |   o       o        O    |               |           |Place Task|   |
-  |_________________________|               |__________________________|
+**Machine App**
 
+Runs on a machine gateway to start and finish production orders and collect machine data.
 
-                  smartphone
-                 _____________
-                |             |
-                |  Machines   |
-                | 1 idle      |
-                | 2 active    |
-                | ...         |
-                |_____________|
-                |             |
-                |  Tasks      |
-                | 1 active    |
-                | 2 idle      |
-                | 3 ...       |
-                |_____________|
+The code can be found in `src/wago-connector`.
 
-```
+**Dashboard App**
 
-TODO: continue here
+Runs on a mobile phone or tablet showing a dashboard displaying relevant production data.
+
+The code can be found in `src/dashboard`.
+
+These three apps together form an imaginary, yet realistic, factory solution on the Actyx platform.
+
+![factory solution](images/tutorials/dx1-tutorial/factory-solution.svg)
