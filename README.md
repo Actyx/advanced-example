@@ -24,4 +24,4 @@ The code can be found in `src/dashboard`.
 
 These three apps together form an imaginary, yet realistic, factory solution on the Actyx platform.
 
-![factory solution](./images/tutorials/dx1-tutorial/factory-solution.svg)
+![factory solution](./images/factory-solution.svg)
