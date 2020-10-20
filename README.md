@@ -1,6 +1,6 @@
-# TODO: Insert Title
+# Actyx Advanced Tutorial Example App
 
-This repository contains the example code for *TODO: insert tutorial title and link to it*.
+This repository contains the example code for the Advanced Tutorial, which you can find on the [Actyx Developer Website](https://developer.actyx.com/docs/learn-actyx/advanced-tutorial/introduction).
 
 It consists of three applications:
 
@@ -8,7 +8,7 @@ It consists of three applications:
 
 Runs on a mobile phone or tablet and lets the user create and manage production orders.
 
-The code can be found in `src/task-system`.
+The code can be found in `src/order-system`.
 
 **Machine App**
 
