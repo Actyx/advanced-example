@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ui:task-system:start": "parcel src/task-system/index.html --port 1235 --out-dir build/task-system/debug",
-    "ui:task-system:build": "rm -rf src/task-system/release && parcel build src/task-system/index.html --out-dir src/task-system/release --public-url ./",
-    "ui:task-system:package": "npm run ui:task-system:build && ax apps package src/task-system/ax-manifest.yml",
+    "ui:order-system:start": "parcel src/order-system/index.html --port 1235 --out-dir build/order-system/debug",
+    "ui:order-system:build": "rm -rf src/order-system/release && parcel build src/order-system/index.html --out-dir src/order-system/release --public-url ./",
+    "ui:order-system:package": "npm run ui:order-system:build && ax apps package src/order-system/ax-manifest.yml",
     "ui:dashboard:start": "parcel src/dashboard/index.html --port 1234 --out-dir build/dashboard/debug",
     "ui:dashboard:build": "rm -rf src/dashboard/release && parcel build src/dashboard/index.html --out-dir src/dashboard/release --public-url ./",
     "ui:dashboard:package": "npm run ui:dashboard:build && ax apps package src/dashboard/ax-manifest.yml",

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Typography, Button, Input, ToggleButtons } from '@actyx/industrial-ui'
 import { useFish, usePond } from '@actyx-contrib/react-pond'
 import { MachineFish } from '../fish/machineFish'
-import { TaskFish } from '../fish/taskFish'
+import { OrderFish } from '../fish/orderFish'
 
 export const App = (): JSX.Element => {
   // Define some react states for the user interactions
@@ -16,18 +16,18 @@ export const App = (): JSX.Element => {
   // get the pond to emit events
   const pond = usePond()
 
-  // click eventHandler to place the new task
-  const placeTask = () => {
+  // click eventHandler to place the new order
+  const placeOrder = () => {
     // check if the input is valid
     if (name === '' || duration === 0 || machine === '') {
       return
     }
 
     // prepare the tags for the event
-    const taskTag = TaskFish.tags.task.withId(name)
-    const taskForMachineTag = TaskFish.tags.taskForMachine.withId(machine)
+    const orderTag = OrderFish.tags.order.withId(name)
+    const orderForMachineTag = OrderFish.tags.orderForMachine.withId(machine)
     // emit the event with pond.emit
-    pond.emit(taskTag.and(taskForMachineTag), {
+    pond.emit(orderTag.and(orderForMachineTag), {
       eventType: 'placed',
       duration,
       machine,
@@ -52,7 +52,7 @@ export const App = (): JSX.Element => {
       }}
     >
       <div style={{ margin: '10px 10px' }}>
-        <Typography variant="heading">Place a new task</Typography>
+        <Typography variant="heading">Place a new order</Typography>
       </div>
       <div style={{ margin: '10px 10px' }}>
         <Typography variant="distance">Name</Typography>
@@ -92,11 +92,11 @@ export const App = (): JSX.Element => {
 
       <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
         <Button
-          text="Place task"
+          text="Place order"
           variant="raised"
           color="primary"
           // Add the click eventHandler to the button onClick
-          onClick={placeTask}
+          onClick={placeOrder}
           disabled={name === '' || duration === 0 || machine === ''}
         />
       </div>

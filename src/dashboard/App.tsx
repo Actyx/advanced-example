@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Typography } from '@actyx/industrial-ui'
 import { Machines } from './Machines'
-import { Tasks } from './Tasks'
+import { Orders } from './Orders'
 
 // responsive css to show the dash bord on a smartphone
 import './main.css'
@@ -14,7 +14,7 @@ export const App = (): JSX.Element => (
     </div>
     <div style={{ flex: '1' }}>
       <Typography variant="distance">Orders</Typography>
-      <Tasks />
+      <Orders />
     </div>
   </div>
 )
