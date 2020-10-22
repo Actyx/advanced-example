@@ -7,7 +7,7 @@ export const Machines = () => {
   // get all machine states with the useRegistryFish
   const machines = useRegistryFish(MachineFish.registry, Object.keys, MachineFish.of)
 
-  // this component get drawn for each entry in the machines array and just shows the state of the machine
+  // this component gets drawn for each entry in the machines array and just shows the state of the machine
   return (
     <div>
       {machines.map((m) => (

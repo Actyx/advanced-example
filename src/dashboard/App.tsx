@@ -3,7 +3,7 @@ import { Typography } from '@actyx/industrial-ui'
 import { Machines } from './Machines'
 import { Orders } from './Orders'
 
-// responsive css to show the dash bord on a smartphone
+// responsive css to show the dashboard on a smartphone
 import './main.css'
 
 export const App = (): JSX.Element => (

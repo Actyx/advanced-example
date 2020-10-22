@@ -82,7 +82,7 @@ export const App = (): JSX.Element => {
              * the items of the machine select came from the machine registry.
              * I just map the keys of the registry state to the React data.
              *
-             * As soon the state change. The component is triggered automatically to redraw
+             * As soon the state changes, the component is triggered automatically to redraw
              */
             items={Object.keys(machines.state).map((m) => ({ id: m, label: m }))}
             onToggle={(value) => setMachine(value)}

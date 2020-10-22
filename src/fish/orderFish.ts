@@ -1,7 +1,7 @@
 import { Tag, Fish, FishId } from '@actyx/pond'
 /**
  * Order Fish.
- * Very minimal integration to represent the state of a order with a given name or get a list of all open orders
+ * Very minimal integration to represent the state of an order with a given name or get a list of all open orders
  *
  * Events: PlacedEvent, StartedEvent, FinishedEvent
  * Tags: order
@@ -10,7 +10,7 @@ import { Tag, Fish, FishId } from '@actyx/pond'
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !
-// ! all undocumented parts are documented in the machineFish.ts
+// ! all undocumented parts are documented in machineFish.ts
 // !
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -24,7 +24,7 @@ export type UndefineState = {
   stateType: 'undefined'
 }
 /**
- * complete lifecycle of the Order in one type definition with differed stateTypes
+ * complete lifecycle of the order in one type definition with different stateTypes
  */
 export type DefinedState = {
   stateType: 'idle' | 'active' | 'done'
@@ -47,7 +47,7 @@ export type RegState = Record<string, boolean>
 // !
 
 /**
- * Event when a new order is placed on the shop-floor
+ * Event when a new order is placed
  */
 export type PlacedEvent = {
   eventType: 'placed'
@@ -56,7 +56,7 @@ export type PlacedEvent = {
   machine: string
 }
 /**
- * Event, when a machine start the work on this order
+ * Event, when a machine starts to work on this order
  */
 export type StartedEvent = {
   eventType: 'started'
@@ -103,7 +103,7 @@ const tags = {
  * existing orders
  *
  * Nearly the same as the MachineFish.registry
- * but this registry deletes the order as soon a finish event occurs
+ * but this registry deletes the order as soon as a finish event occurs
  *
  * @param state current known order name
  * @param event ne incoming order event
@@ -146,14 +146,14 @@ export const OrderFish = {
     /** @see MachineFish */
     where: tags.order.withId(name),
     /**
-     * The onEvent function reduce all incoming events to the state of
+     * The onEvent function reduces all incoming events to the state of
      * the order.
      *
-     * in case of an placed event, the order is set or reset to the data
-     * from the event, and use the name from the factory to set the name
+     * in case of a placed event, the order is set or reset to the data
+     * from the event, and uses the name from the factory to set the name
      *
-     * the start and stop is only valid if the state machine is valid to
-     * transmision to the next stage. The old state transferred to the
+     * start and stop is only valid if the state machine is valid to
+     * transmission to the next stage. The old state transferred to the
      * new state, but the stateType gets updated.
      */
     onEvent: (state, event) => {
