@@ -3,8 +3,7 @@ type: web
 id: dashboard
 version: 1.0.0
 displayName: dashboard
-description: "@ToDo: description"
-#icon: ./app-icon.png # Specifying the app icon is optional. If you don't specify an icon for your app, ActyxOS will automatically use a default icon.
+description: "Dashboard App"
 dist: release
-main: release/index.html # App entry point in dist directory
+main: release/index.html
 settingsSchema: ./settings-schema.json
