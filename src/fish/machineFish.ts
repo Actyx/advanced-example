@@ -33,7 +33,7 @@ export type Order = {
  *
  * This will be the initial state of the fish and he will iterate over the
  * incoming events. It is valide to create any fish you like. (OrderFish.of(uuid.v4()))
- * Fish with not events will stay in this state and you get this state as result.
+ * A Fish with no events will stay in this state and you get this state as a result.
  */
 export type UndefinedState = {
   stateType: 'undefined'
@@ -62,7 +62,7 @@ export type IdleState = {
   name: string
 }
 /**
- * If the machine is working on a order the fish should be in this state
+ * If the machine is working on an order the fish should be in this state
  * and keep the current order
  */
 export type ActiveState = {
@@ -71,7 +71,7 @@ export type ActiveState = {
   order: Order
 }
 /**
- * If the machine finished a order the fish should be in this state
+ * If the machine finished an order the fish should be in this state
  * and keep the completed order.
  */
 export type FinishState = {
@@ -84,12 +84,12 @@ export type FinishState = {
  */
 export type IdleStates = EmergencyState | DisabledState | IdleState
 /**
- * union type with states when the machine has and assigned order
+ * union type with states when the machine has an assigned order
  */
 export type RunningState = ActiveState | FinishState
 
 /**
- * union type with all states a machine could be
+ * union type with all states a machine could be in
  */
 export type State = UndefinedState | IdleStates | RunningState
 
@@ -101,11 +101,11 @@ export type State = UndefinedState | IdleStates | RunningState
 /**
  * ::: important :::
  *
- * The events should contain all information about the happening.
+ * The events should contain all information about what can happen.
  *
  * E.g.:
- * To publish an event that the state of a machine changed  to idle, the
- * following event is emit via ActyxOS:
+ * To publish an event that the state of a machine changed to idle, the
+ * following event is emitted via ActyxOS:
  *
  * tag: ['machine' 'machine:press', 'machine-state']
  * event: {
@@ -115,9 +115,9 @@ export type State = UndefinedState | IdleStates | RunningState
  * }
  *
  * Information in the tags should not be used to model the business logic.
- * You can find the machine name in the tags and in the event it self. The
- * reason for that is, that the event should contain all information to
- * describe the happening and the tags are only used to subscribe/filter the
+ * You can find the machine name in the tags and in the event itself. The
+ * reason for that is that the event should contain all information to
+ * describe what happened, and the tags are only used to subscribe/filter the
  * event streams.
  */
 
@@ -138,8 +138,8 @@ export type SetStateEvent = {
  * order: order data, to know what order the machine is working on.
  *
  * If the order data changed before the machine started, but the machine
- * did not get the information in the reason of a network outtage, it would
- * be hardly possible to know the order data
+ * did not get the information due to a a network outtage, it would not
+ * be possible to know the order data
  */
 export type OrderStartedEvent = {
   eventType: 'started'
@@ -149,7 +149,7 @@ export type OrderStartedEvent = {
 /**
  * Event when the machine finished an order
  * machine: machine who finished the order
- * order: order data, to know what order the machine did.
+ * order: order data to know what order the machine did
  *
  * please see OrderStartedEvent
  */
@@ -160,7 +160,7 @@ export type OrderFinishedEvent = {
 }
 
 /**
- * union type All expected events the MachineFish will get from the store
+ * union type All expected events the MachineFish will get from the Event Service
  */
 export type Event = SetStateEvent | OrderStartedEvent | OrderFinishedEvent
 
@@ -227,21 +227,21 @@ export const MachineFish = {
      */
     where: tags.machine.withId(name),
     /**
-     * The onEvent function reduce all incoming events to the state of
+     * The onEvent function reduces all incoming events to the state of
      * the machine.
      *
      * In this case the setState will overwrite the machine state and
      * set it to the state in the event. There is no reason to validate
-     * this event, because it just happens in the real world and we can
+     * this event, because it happened in the real world and we can
      * not reject it.
      *
      * The started and the finished event is handled the same way. The
-     * fact that e machine starts the order and finished the order could
-     * not be refused. It just happened.
+     * fact that the machine starts the order and finished the order cannot
+     * be rejected. It happened.
      *
-     * the finish case is a perfect example for the reason to add the order
+     * The finish case is a perfect example for the need to add the order
      * to the event.
-     * if you use the `state.order` in this case. it could be wrong.
+     * If you use the `state.order` in this case, it could be wrong.
      */
     onEvent: (state, event) => {
       switch (event.eventType) {

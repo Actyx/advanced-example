@@ -4,9 +4,9 @@ import { Typography } from '@actyx/industrial-ui'
 import { OrderFish } from '../fish/orderFish'
 
 export const Orders = () => {
-  // Get all order states with the useRegistryFish if a state change or the registry change. The component get redrawn
+  // Get all order states with the useRegistryFish. If a state changes or the registry changes, the component gets redrawn
   const orders = useRegistryFish(OrderFish.registry, Object.keys, OrderFish.of)
-  // This component get drawn for each entry in the machines array and just shows the state of the machine
+  // This component gets drawn for each entry in the machines array and just shows the state of the machine
   return (
     <div>
       {orders
@@ -24,7 +24,7 @@ export const Orders = () => {
               margin: '15px 5px',
             }}
           >
-            {/* this check will never fail. But technically, a order fish could be in the undefined state */}
+            {/* this check will never fail. But technically, an order fish could be in the undefined state */}
             {m.state.stateType !== 'undefined' && (
               <>
                 {/* in the `props` you will get the properties provided to the fish factory */}

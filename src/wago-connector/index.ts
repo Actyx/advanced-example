@@ -13,15 +13,16 @@ import { Fish } from '@actyx/pond'
 // |                                                                    |
 // ----------------------------------------------------------------------
 
-// define default settings use during the local development process
+// define default settings use during the local development process when
+// when the app is not running in an ActyxOS runtime
 const defaultSettings = {
   name: 'Machine2',
   plcIp: '192.168.0.99',
 }
 type Settings = typeof defaultSettings
 
-// parse the JSON from the AX_APP_SETTINGS environment variable or use the
-// default settings
+// parse the JSON from the AX_APP_SETTINGS environment variable passed
+// by the ActyxOS runtime or use default settings
 const settings: Settings = JSON.parse(
   process.env['AX_APP_SETTINGS'] || JSON.stringify(defaultSettings),
 )
@@ -80,7 +81,7 @@ const observeAll = <RS, S, P, E>(
   )
 }
 
-// main entry point of the application. The RxPond (Pond with RxJs support) connect to ActyxOS
+// main entry point of the application. The RxPond (Pond with RxJs support) connects to ActyxOS
 Pond.default().then(async (pond) => {
   console.log(`started ${machineName} plc ip: ${plcIp}`)
 
@@ -90,7 +91,7 @@ Pond.default().then(async (pond) => {
       if (availableOrders.length !== orders.length) {
         // use the netvar list 3 to update the network variable in the PLC
         list3.setMore({
-          // if there is a order set the orderAvailable to high
+          // if there is an order set the orderAvailable to high
           orderAvailable: orders.length > 0,
           // if there are more orders available set the moreOrdersAvailable to high
           moreOrdersAvailable: orders.length > 1,
@@ -101,8 +102,8 @@ Pond.default().then(async (pond) => {
     },
   )
 
-  // when the machine is switched on, it post an event, that it is here but most likely disabled
-  // as soon the PLC connection is established a other state is emitted
+  // when the machine is switched on, it posts an event that it is here but most likely disabled
+  // as soon the PLC connection is established another state is emitted
   pond.emit(machineTag.and(stateTag), {
     eventType: 'setState',
     machine: machineName,
@@ -113,7 +114,7 @@ Pond.default().then(async (pond) => {
   pond.observe(MachineFish.of(machineName), (state) => {
     // this log will appear in the node-manager or in the `ax logs tail ...` output
     console.log('machine state', state)
-    // if the machine is active a timer should be active to execute the order
+    // if the machine is active, a timer should be active to execute the order
     if (state.stateType === 'active') {
       const { duration, name } = state.order
 
@@ -121,7 +122,7 @@ Pond.default().then(async (pond) => {
       pond.emit(orderTags(name), { eventType: 'started', machine: machineName, name })
 
       currentTimer = setTimeout(() => {
-        // if the order is done, a event is emitted that the machine finished the order
+        // if the order is done, an event is emitted that the machine finished the order
         pond.emit(machineTag, {
           eventType: 'finished',
           order: state.order,
@@ -150,7 +151,7 @@ Pond.default().then(async (pond) => {
   })
 
   /**
-   * Eventhandle to react on changed on the plc.
+   * Eventhandle to react on changes on the plc.
    * see list1 definition
    *
    * @param key Variable that changed on the plc
@@ -159,9 +160,8 @@ Pond.default().then(async (pond) => {
   const onStateChanged = (key: string, value: boolean) => {
     switch (key) {
       case 'emergency': {
-        // if the emergency is changed to 'PRESSED'
+        // if the emergency button is changed to 'PRESSED'
         if (value) {
-          // top the current order
           if (machineState.stateType === 'active') {
             // stop the current order
             currentTimer && clearTimeout(currentTimer)
@@ -191,7 +191,7 @@ Pond.default().then(async (pond) => {
         return
       }
       case 'enable':
-        // if the enable variable changed on the PLC
+        // if the enable variable changed on the PLC,
         // emit a event that the machine state changed
         pond.emit(machineTag.and(stateTag), {
           eventType: 'setState',
@@ -209,7 +209,7 @@ Pond.default().then(async (pond) => {
         }
         return
       case 'working':
-        // if the working button get pressed
+        // if the working button gets pressed
         if (value) {
           // if the machine is in the idle state and there is something to do, start a new order
           if (machineState.stateType === 'idle' && availableOrders.length > 0) {
