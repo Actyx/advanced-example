@@ -3,8 +3,8 @@ type: docker
 id: wago-connector
 version: 1.0.0
 displayName: wago-connector
-description: "@ToDo: description"
+description: "Machine App"
 dockerCompose:
-  #x86_64: ./docker-compose-amd64.yml
-  aarch64: ./docker-compose-arm64v8.yml
-settingsSchema: ./settings-schema.json # <---- you could also inline the settings schema
+  x86_64: ./docker-compose-amd64.yml
+  # aarch64: ./docker-compose-arm64v8.yml
+settingsSchema: ./settings-schema.json
