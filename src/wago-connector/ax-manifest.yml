@@ -6,5 +6,5 @@ displayName: wago-connector
 description: "Machine App"
 dockerCompose:
   x86_64: ./docker-compose-amd64.yml
-  # aarch64: ./docker-compose-arm64v8.yml
+  # aarch64: ./docker-compose-arm64.yml
 settingsSchema: ./settings-schema.json
