@@ -27,7 +27,7 @@
   "dependencies": {
     "@actyx-contrib/react-pond": "^2.0.0-rc4",
     "@actyx-contrib/rx-pond": "^0.1.0",
-    "@actyx/industrial-ui": "^1.0.4",
+    "@actyx/industrial-ui": "^1.0.5",
     "@actyx/pond": "^2.2.0",
     "netvar": "^1.0.5",
     "react": "^16.13.1",
