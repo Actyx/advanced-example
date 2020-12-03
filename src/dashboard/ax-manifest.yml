@@ -6,4 +6,3 @@ displayName: dashboard
 description: "Dashboard App"
 dist: release
 main: release/index.html
-settingsSchema: ./settings-schema.json
