@@ -42,41 +42,39 @@ export const App = (): JSX.Element => {
   return (
     <div
       style={{
-        margin: '120px auto',
-        width: 600,
+        width: '100%',
+        padding: '24px',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: 'white',
-        borderRadius: 15,
-        padding: '30px 10px',
       }}
     >
-      <div style={{ margin: '10px 10px' }}>
+      <div>
         <Typography variant="heading">Place a new order</Typography>
       </div>
-      <div style={{ margin: '10px 10px' }}>
-        <Typography variant="distance">Name</Typography>
-        <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+      <div style={{ marginBottom: '12px' }}>
+        <Typography variant="distance">Order Number</Typography>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Input value={name} type="text" onChange={({ target }) => setName(target.value)} />
         </div>
       </div>
-      <div style={{ margin: '10px 10px' }}>
-        <Typography variant="distance">Duration</Typography>
-        <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+      <div style={{ marginBottom: '12px' }}>
+        <Typography variant="distance">Planned Duration</Typography>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
           <ToggleButtons
             items={[
-              { id: '5', label: '5 Sec' },
-              { id: '15', label: '15 Sec' },
-              { id: '30', label: '30 Sec' },
+              { id: '1', label: '1h' },
+              { id: '3', label: '3h' },
+              { id: '5', label: '5h' },
             ]}
             onToggle={(value) => setDuration(parseInt(value))}
           />
         </div>
       </div>
 
-      <div style={{ margin: '10px 10px' }}>
+      <div style={{ marginBottom: '12px' }}>
         <Typography variant="distance">Machine</Typography>
-        <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
           <ToggleButtons
             /*
              * the items of the machine select came from the machine registry.
@@ -90,7 +88,7 @@ export const App = (): JSX.Element => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
         <Button
           text="Place order"
           variant="raised"

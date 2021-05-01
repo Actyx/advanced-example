@@ -7,12 +7,12 @@ import { Orders } from './Orders'
 import './main.css'
 
 export const App = (): JSX.Element => (
-  <div className="main">
-    <div style={{ flex: '1' }}>
+  <div className="main" style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ paddingLeft: '42px' }}>
       <Typography variant="distance">Machines</Typography>
       <Machines />
     </div>
-    <div style={{ flex: '1' }}>
+    <div style={{ paddingLeft: '42px' }}>
       <Typography variant="distance">Orders</Typography>
       <Orders />
     </div>

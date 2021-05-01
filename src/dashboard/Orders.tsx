@@ -8,7 +8,13 @@ export const Orders = () => {
   const orders = useRegistryFish(OrderFish.registry, Object.keys, OrderFish.of)
   // This component gets drawn for each entry in the machines array and just shows the state of the machine
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column-reverse',
+        maxWidth: '500px',
+      }}
+    >
       {orders
         .map((s) => {
           console.log(s)
@@ -20,26 +26,28 @@ export const Orders = () => {
             style={{
               backgroundColor: 'white',
               borderRadius: 15,
-              padding: '10px 15px',
-              margin: '15px 5px',
+              padding: '12px',
+              marginBottom: '24px',
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
             {/* this check will never fail. But technically, an order fish could be in the undefined state */}
             {m.state.stateType !== 'undefined' && (
               <>
                 {/* in the `props` you will get the properties provided to the fish factory */}
-                <Typography variant="distance">Order: {m.props}</Typography>
+                <Typography variant="distance">Order Number: {m.props}</Typography>
                 <br />
                 {/* display some interesting data to the user */}
-                <div style={{ display: 'flex' }}>
-                  <div style={{ flex: '1' }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div>
                     <Typography variant="standard">State: {m.state.stateType}</Typography>{' '}
                   </div>
-                  <div style={{ flex: '1' }}>
+                  <div>
                     <Typography variant="standard">Machine: {m.state.machine}</Typography>{' '}
                   </div>
-                  <div style={{ flex: '1' }}>
-                    <Typography variant="standard">Duration: {m.state.duration} Sec</Typography>
+                  <div>
+                    <Typography variant="standard">Duration: {m.state.duration}h</Typography>
                   </div>
                 </div>
               </>

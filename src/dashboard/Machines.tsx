@@ -9,7 +9,13 @@ export const Machines = () => {
 
   // this component gets drawn for each entry in the machines array and just shows the state of the machine
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column-reverse',
+        maxWidth: '500px',
+      }}
+    >
       {machines.map((m) => (
         <div
           key={m.state.name}
