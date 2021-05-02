@@ -1,0 +1,13 @@
+{
+  "appId": "com.actyx.ordermanagement",
+  "appName": "Order Management",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "src/order-management/release",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

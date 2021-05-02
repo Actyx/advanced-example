@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Order Management</string>
+    <string name="title_activity_main">Order Management</string>
+    <string name="package_name">com.actyx.ordermanagement</string>
+    <string name="custom_url_scheme">com.actyx.ordermanagement</string>
+</resources>

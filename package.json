@@ -2,7 +2,7 @@
   "name": "actyx-andvanced-tutorial",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "ui:order-management:start": "parcel src/order-management/index.html --port 1235 --out-dir build/order-management/debug",
@@ -15,7 +15,8 @@
     "node:wago-connector:build": "tsc src/wago-connector/index.ts --outDir build/wago-connector",
     "node:wago-connector:docker:build-amd64": "npm run node:wago-connector:build && docker build -t wago-connector-amd64 -f src/wago-connector/Dockerfile .",
     "node:wago-connector:docker:build-aarch64": "npm run node:wago-connector:build && docker buildx build --platform linux/arm64 -t wago-connector-aarch64 -f src/wago-connector/Dockerfile --load .",
-    "node:wago-connector:package": "ax apps package src/wago-connector/ax-manifest.yml"
+    "node:wago-connector:package": "ax apps package src/wago-connector/ax-manifest.yml",
+    "electron-react": "concurrently \"BROWSER=none npm ui:dashboard:start\" \"wait-on http://localhost:1234 && electron .\""
   },
   "keywords": [],
   "author": "",
@@ -29,12 +30,19 @@
     "@actyx-contrib/rx-pond": "^0.1.0",
     "@actyx/industrial-ui": "^1.0.5",
     "@actyx/pond": "^2.2.0",
+    "@capacitor/android": "^2.4.7",
+    "@capacitor/cli": "^2.4.7",
+    "@capacitor/core": "^2.4.7",
+    "concurrently": "^6.0.2",
+    "electron": "^12.0.6",
     "netvar": "^1.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "wait-on": "^5.3.0"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
     "@types/node": "^14.6.4",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
