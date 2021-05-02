@@ -31,7 +31,7 @@ export const Orders = () => {
             Machine
           </Typography>
         </TableCell>
-        <TableCell>
+        <TableCell numeric>
           <Typography variant="standard" bold>
             Duration
           </Typography>
@@ -56,7 +56,7 @@ export const Orders = () => {
                   <TableCell>
                     <Typography variant="standard">{m.state.machine}</Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell numeric>
                     <Typography variant="standard">{m.state.duration}h</Typography>
                   </TableCell>
                 </>
