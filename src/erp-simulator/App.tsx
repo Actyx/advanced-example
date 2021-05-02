@@ -66,14 +66,18 @@ export const App = (): JSX.Element => {
         <div>
           <Typography variant="big">Place a new order</Typography>
         </div>
-        <div style={{ marginBottom: '12px' }}>
-          <Typography variant="distance">Order Number</Typography>
+        <div style={{ marginBottom: '12px', marginTop: '24px' }}>
+          <Typography variant="standard" bold>
+            Order Number
+          </Typography>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <Input value={name} type="text" onChange={({ target }) => setName(target.value)} />
           </div>
         </div>
-        <div style={{ marginBottom: '12px' }}>
-          <Typography variant="distance">Planned Duration</Typography>
+        <div style={{ marginBottom: '12px', marginTop: '24px' }}>
+          <Typography variant="standard" bold>
+            Planned Duration
+          </Typography>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <ToggleButtons
               items={[
@@ -86,8 +90,10 @@ export const App = (): JSX.Element => {
           </div>
         </div>
 
-        <div style={{ marginBottom: '12px' }}>
-          <Typography variant="distance">Machine</Typography>
+        <div style={{ marginBottom: '12px', marginTop: '24px' }}>
+          <Typography variant="standard" bold>
+            Machine
+          </Typography>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <ToggleButtons
               /*
@@ -102,7 +108,7 @@ export const App = (): JSX.Element => {
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', marginTop: '24px' }}>
           <Button
             text="Place order"
             variant="raised"
