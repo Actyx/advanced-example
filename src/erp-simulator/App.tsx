@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Typography, Button, Input, ToggleButtons } from '@actyx/industrial-ui'
+import { Typography, Button, Input, ToggleButtons, Toolbar } from '@actyx/industrial-ui'
 import { useFish, usePond } from '@actyx-contrib/react-pond'
 import { MachineFish } from '../fish/machineFish'
 import { OrderFish } from '../fish/orderFish'
@@ -40,64 +40,72 @@ export const App = (): JSX.Element => {
   // create the react app.
   // I use the actyx industrial-ui to create shop-floor proven components
   return (
-    <div
-      style={{
-        width: '100%',
-        padding: '24px',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'white',
-      }}
-    >
-      <div>
-        <Typography variant="heading">Place a new order</Typography>
-      </div>
-      <div style={{ marginBottom: '12px' }}>
-        <Typography variant="distance">Order Number</Typography>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <Input value={name} type="text" onChange={({ target }) => setName(target.value)} />
+    <>
+      <Toolbar variant="dark">
+        <div style={{ width: '24px' }}></div>
+        <Typography variant="distance" color="#ffffff">
+          ERP Simulator
+        </Typography>
+      </Toolbar>{' '}
+      <div
+        style={{
+          width: '100%',
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'white',
+        }}
+      >
+        <div>
+          <Typography variant="big">Place a new order</Typography>
         </div>
-      </div>
-      <div style={{ marginBottom: '12px' }}>
-        <Typography variant="distance">Planned Duration</Typography>
+        <div style={{ marginBottom: '12px' }}>
+          <Typography variant="distance">Order Number</Typography>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <Input value={name} type="text" onChange={({ target }) => setName(target.value)} />
+          </div>
+        </div>
+        <div style={{ marginBottom: '12px' }}>
+          <Typography variant="distance">Planned Duration</Typography>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <ToggleButtons
+              items={[
+                { id: '1', label: '1h' },
+                { id: '3', label: '3h' },
+                { id: '5', label: '5h' },
+              ]}
+              onToggle={(value) => setDuration(parseInt(value))}
+            />
+          </div>
+        </div>
+
+        <div style={{ marginBottom: '12px' }}>
+          <Typography variant="distance">Machine</Typography>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <ToggleButtons
+              /*
+               * the items of the machine select came from the machine registry.
+               * I just map the keys of the registry state to the React data.
+               *
+               * As soon the state changes, the component is triggered automatically to redraw
+               */
+              items={Object.keys(machines.state).map((m) => ({ id: m, label: m }))}
+              onToggle={(value) => setMachine(value)}
+            />
+          </div>
+        </div>
+
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <ToggleButtons
-            items={[
-              { id: '1', label: '1h' },
-              { id: '3', label: '3h' },
-              { id: '5', label: '5h' },
-            ]}
-            onToggle={(value) => setDuration(parseInt(value))}
+          <Button
+            text="Place order"
+            variant="raised"
+            color="primary"
+            // Add the click eventHandler to the button onClick
+            onClick={placeOrder}
+            disabled={name === '' || duration === 0 || machine === ''}
           />
         </div>
       </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <Typography variant="distance">Machine</Typography>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <ToggleButtons
-            /*
-             * the items of the machine select came from the machine registry.
-             * I just map the keys of the registry state to the React data.
-             *
-             * As soon the state changes, the component is triggered automatically to redraw
-             */
-            items={Object.keys(machines.state).map((m) => ({ id: m, label: m }))}
-            onToggle={(value) => setMachine(value)}
-          />
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <Button
-          text="Place order"
-          variant="raised"
-          color="primary"
-          // Add the click eventHandler to the button onClick
-          onClick={placeOrder}
-          disabled={name === '' || duration === 0 || machine === ''}
-        />
-      </div>
-    </div>
+    </>
   )
 }
