@@ -1,8 +1,8 @@
 manifestVersion: '1.0'
 type: web
-id: erp-simulator
+id: order-management
 version: 1.0.0
-displayName: erp-simulator
-description: 'ERP Simulator App'
+displayName: order-management
+description: 'Order Management App'
 dist: release
 main: release/index.html

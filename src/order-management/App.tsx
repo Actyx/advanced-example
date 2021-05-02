@@ -51,7 +51,7 @@ export const App = (): JSX.Element => {
           </svg>
         </div>
         <Typography variant="distance" color="#ffffff">
-          ERP Simulator
+          Order Management
         </Typography>
       </Toolbar>{' '}
       <div

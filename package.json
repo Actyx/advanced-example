@@ -1,13 +1,13 @@
 {
-  "name": "actyx-advanced-tutorial-example-app",
+  "name": "actyx-andvanced-tutorial",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ui:erp-simulator:start": "parcel src/erp-simulator/index.html --port 1235 --out-dir build/erp-simulator/debug",
-    "ui:erp-simulator:build": "rm -rf src/erp-simulator/release && parcel build src/erp-simulator/index.html --out-dir src/erp-simulator/release --public-url ./",
-    "ui:erp-simulator:package": "npm run ui:erp-simulator:build && ax apps package src/erp-simulator/ax-manifest.yml",
+    "ui:order-management:start": "parcel src/order-management/index.html --port 1235 --out-dir build/order-management/debug",
+    "ui:order-management:build": "rm -rf src/order-management/release && parcel build src/order-management/index.html --out-dir src/order-management/release --public-url ./",
+    "ui:order-management:package": "npm run ui:order-management:build && ax apps package src/order-management/ax-manifest.yml",
     "ui:dashboard:start": "parcel src/dashboard/index.html --port 1234 --out-dir build/dashboard/debug",
     "ui:dashboard:build": "rm -rf src/dashboard/release && parcel build src/dashboard/index.html --out-dir src/dashboard/release --public-url ./",
     "ui:dashboard:package": "npm run ui:dashboard:build && ax apps package src/dashboard/ax-manifest.yml",

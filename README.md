@@ -8,7 +8,7 @@ It consists of three applications:
 
 Runs on a mobile phone or tablet and lets the user create and manage production orders.
 
-The code can be found in `src/erp-simulator`.
+The code can be found in `src/order-management`.
 
 **Machine App**
 
