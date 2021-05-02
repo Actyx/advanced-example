@@ -1,8 +1,0 @@
-manifestVersion: '1.0'
-type: web
-id: order-management
-version: 1.0.0
-displayName: order-management
-description: 'Order Management App'
-dist: release
-main: release/index.html

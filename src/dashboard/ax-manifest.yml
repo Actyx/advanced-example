@@ -1,8 +1,0 @@
-manifestVersion: '1.0'
-type: web
-id: dashboard
-version: 1.0.0
-displayName: dashboard
-description: 'Dashboard App'
-dist: release
-main: release/index.html
