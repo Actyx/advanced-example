@@ -8,12 +8,16 @@ import './main.css'
 
 export const App = (): JSX.Element => (
   <div className="main" style={{ display: 'flex', flexDirection: 'column' }}>
-    <div style={{ paddingLeft: '42px' }}>
-      <Typography variant="distance">Machines</Typography>
+    <div style={{ padding: '42px' }}>
+      <Typography variant="distance" semiBold>
+        Machines
+      </Typography>
       <Machines />
     </div>
-    <div style={{ paddingLeft: '42px' }}>
-      <Typography variant="distance">Orders</Typography>
+    <div style={{ padding: '42px' }}>
+      <Typography variant="distance" semiBold>
+        Orders
+      </Typography>
       <Orders />
     </div>
   </div>

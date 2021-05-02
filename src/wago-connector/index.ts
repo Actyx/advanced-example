@@ -16,7 +16,7 @@ import { Fish } from '@actyx/pond'
 // define default settings use during the local development process when
 // when the app is not running in an ActyxOS runtime
 const defaultSettings = {
-  name: 'Machine2',
+  name: 'Wago Connector',
   plcIp: '192.168.0.99',
 }
 type Settings = typeof defaultSettings
@@ -205,7 +205,10 @@ Pond.default().then(async (pond) => {
           currentTimer = undefined
 
           // replace the order to make him fresh
-          pond.emit(orderTags(machineState.order.name), { eventType: 'placed', ...machineState.order })
+          pond.emit(orderTags(machineState.order.name), {
+            eventType: 'placed',
+            ...machineState.order,
+          })
         }
         return
       case 'working':
@@ -218,7 +221,11 @@ Pond.default().then(async (pond) => {
             // validate it
             if (nextOrder && nextOrder.stateType !== 'undefined') {
               // emit a event that the machine state changed
-              pond.emit(machineTag, { eventType: 'started', machine: machineName, order: nextOrder })
+              pond.emit(machineTag, {
+                eventType: 'started',
+                machine: machineName,
+                order: nextOrder,
+              })
             }
           }
 
