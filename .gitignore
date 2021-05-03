@@ -6,3 +6,5 @@ release
 *.tar.gz
 *.tgz
 src/machine
+
+out/
