@@ -8,7 +8,7 @@ import { OrderFish } from '../fish/orderFish'
 export const App = (): JSX.Element => {
   // Define some react states for the user interactions
   const [name, setName] = React.useState<string>('')
-  const [duration, setDuration] = React.useState<number>(15)
+  const [duration, setDuration] = React.useState<number>(0)
   const [machine, setMachine] = React.useState<string>('')
 
   // Get the state of the MachineRegistry fish. We use this later to create a select field
