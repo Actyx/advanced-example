@@ -9,20 +9,27 @@ export const Machines = () => {
 
   // this component gets drawn for each entry in the machines array and just shows the state of the machine
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+      }}
+    >
       {machines.map((m) => (
         <div
           key={m.state.name}
           style={{
             backgroundColor: 'white',
-            margin: '15px 5px',
-            padding: '15px 25px',
-            borderRadius: 15,
+            borderRadius: 5,
+            padding: '12px',
+            marginRight: '24px',
+            minWidth: '240px',
+            border: '1px solid #c5c5c5',
           }}
         >
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant="distance">{m.props}</Typography>
-            <Typography variant="standard"> ({m.state.stateType})</Typography>
+            <Typography variant="standard">State: {m.state.stateType}</Typography>
           </div>
 
           {(m.state.stateType === 'active' || m.state.stateType === 'finish') && (

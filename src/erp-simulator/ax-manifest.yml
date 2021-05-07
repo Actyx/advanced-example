@@ -1,9 +1,0 @@
-manifestVersion: "1.0"
-type: web
-id: erp-simulator
-version: 1.0.0
-displayName: erp-simulator
-description: "ERP Simulator App"
-dist: release
-main: release/index.html
-settingsSchema: ./settings-schema.json
