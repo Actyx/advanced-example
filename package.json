@@ -12,7 +12,7 @@
     "node:wago-connector:build": "tsc src/wago-connector/index.ts --outDir build/wago-connector",
     "node:wago-connector:docker:build-amd64": "npm run node:wago-connector:build && docker build -t wago-connector-amd64 -f src/wago-connector/Dockerfile .",
     "node:wago-connector:docker:build-aarch64": "npm run node:wago-connector:build && docker buildx build --platform linux/arm64 -t wago-connector-aarch64 -f src/wago-connector/Dockerfile --load .",
-    "electron-react": "concurrently \"BROWSER=none npm ui:dashboard:start\" \"wait-on http://localhost:1234 && electron .\"",
+    "electron-react": "concurrently \"cross-env BROWSER=none npm run ui:dashboard:start\" \"wait-on http://localhost:1234 && electron .\"",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
