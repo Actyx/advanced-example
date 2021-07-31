@@ -91,6 +91,16 @@ const manifest: AppManifest = {
 Pond.default(manifest).then(async (pond) => {
   console.log(`started ${machineName} plc ip: ${plcIp}`)
 
+  // emit a heartbeat event every 60 seconds
+  setInterval(() => {
+    console.log(`emitting heartbeat`)
+    pond.emit(machineTag, {
+      eventType: 'heartbeat',
+      timestamp: Math.floor(new Date().getTime() / 1000),
+      machine: machineName,
+    })
+  }, 60 * 1_000)
+
   // subscribe to the OrderRegistry and get all current active order assigned to this machine
   observeAll(pond, OrderFish.availableOrdersFor(machineName), Object.keys, OrderFish.of).subscribe(
     (orders) => {

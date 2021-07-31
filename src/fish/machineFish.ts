@@ -38,6 +38,7 @@ export type Order = {
 export type UndefinedState = {
   stateType: 'undefined'
   name: string
+  lastSeen?: number
 }
 
 /**
@@ -46,6 +47,7 @@ export type UndefinedState = {
 export type EmergencyState = {
   stateType: 'emergency'
   name: string
+  lastSeen?: number
 }
 /**
  * If the machine is switched off the fish should be in this state
@@ -53,6 +55,7 @@ export type EmergencyState = {
 export type DisabledState = {
   stateType: 'disabled'
   name: string
+  lastSeen?: number
 }
 /**
  * If the machine is switched on the fish should be in this state
@@ -60,6 +63,7 @@ export type DisabledState = {
 export type IdleState = {
   stateType: 'idle'
   name: string
+  lastSeen?: number
 }
 /**
  * If the machine is working on an order the fish should be in this state
@@ -69,6 +73,7 @@ export type ActiveState = {
   stateType: 'active'
   name: string
   order: Order
+  lastSeen?: number
 }
 /**
  * If the machine finished an order the fish should be in this state
@@ -78,6 +83,7 @@ export type FinishState = {
   stateType: 'finish'
   name: string
   order: Order
+  lastSeen?: number
 }
 /**
  * union type with all Idle states
@@ -158,11 +164,19 @@ export type OrderFinishedEvent = {
   machine: string
   order: Order
 }
+/**
+ * Event just to update the lastSeen variable
+ */
+export type HearbeatEvent = {
+  eventType: 'heartbeat'
+  machine: string
+  timestamp: number
+}
 
 /**
  * union type All expected events the MachineFish will get from the Event Service
  */
-export type Event = SetStateEvent | OrderStartedEvent | OrderFinishedEvent
+export type Event = SetStateEvent | OrderStartedEvent | OrderFinishedEvent | HearbeatEvent
 
 // ----------------------------------------------------------------------
 // |                                                                    |
@@ -247,20 +261,28 @@ export const MachineFish = {
       switch (event.eventType) {
         case 'setState':
           return {
+            ...state,
             stateType: event.state,
             name,
           }
         case 'started':
           return {
+            ...state,
             stateType: 'active',
             order: event.order,
             name,
           }
         case 'finished':
           return {
+            ...state,
             stateType: 'finish',
             order: event.order,
             name,
+          }
+        case 'heartbeat':
+          return {
+            ...state,
+            lastSeen: event.timestamp,
           }
         default:
           break

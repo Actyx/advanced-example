@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Typography, Button, Input, ToggleButtons, Toolbar } from '@actyx/industrial-ui'
 import { useFish, usePond } from '@actyx-contrib/react-pond'
-import { MachineFish } from '../fish/machineFish'
+import { MachineFish, State as MachineState } from '../fish/machineFish'
 import { OrderFish } from '../fish/orderFish'
 
 export const App = (): JSX.Element => {
@@ -9,9 +9,14 @@ export const App = (): JSX.Element => {
   const [name, setName] = React.useState<string>('')
   const [duration, setDuration] = React.useState<number>(0)
   const [machine, setMachine] = React.useState<string>('')
+  const [allMachines, setAllMachines] = React.useState<MachineState[]>([])
+  const [lastCheckedMachines, setLastCheckedMachines] = React.useState<number>(
+    Math.floor(new Date().getTime() / 1000),
+  )
 
   // Get the state of the MachineRegistry fish. We use this later to create a select field
   const machines = useFish(MachineFish.registry)
+  console.log(machines)
   // get the pond to emit events
   const pond = usePond()
 
@@ -35,6 +40,45 @@ export const App = (): JSX.Element => {
     // reset the input field to avoid spamming
     setName('')
   }
+
+  // We use the Pond's `observeAll` function to observe all machine fish. This is required
+  // since we need access to the `lastSeen` variable in the machine fish's state. We store
+  // the state of all machines in the `allMachines` variable. Anytime a machine fish's state
+  // changes, the component will automatically re-render. Note that this is an inefficient
+  // usage of `observerAll` since we try and create a new fish on every event tagged with
+  // the `MachineFish.tags.state` tag. If we want to use `observeAll` we would use a dedicated
+  // seed event.
+  React.useEffect(() => {
+    let unmounted = false
+    pond.observeAll(
+      MachineFish.tags.state,
+      (a) => MachineFish.of(a.machine),
+      {},
+      (states) => {
+        if (!unmounted) {
+          setAllMachines(states)
+        }
+      },
+    )
+    return () => {
+      unmounted = true
+    }
+  }, [])
+
+  // Update the setLastCheckedMachines variable to the current time
+  // in order to trigger a re-render of the component. We will compare
+  // this time with the machines' last seen timestamps
+  React.useEffect(() => {
+    let unmounted = false
+    setTimeout(() => {
+      if (!unmounted) {
+        setLastCheckedMachines(Math.floor(new Date().getTime() / 1000))
+      }
+    }, 20 * 1_000) // force re-render and check every 20 seconds
+    return () => {
+      unmounted = true
+    }
+  })
 
   // create the react app.
   // I use the actyx industrial-ui to create shop-floor proven components
@@ -93,6 +137,11 @@ export const App = (): JSX.Element => {
           <Typography variant="standard" bold>
             Machine
           </Typography>
+        </div>
+        <div>
+          <Typography variant="subtext">
+            Last checked machines at: {new Date(lastCheckedMachines * 1000).toISOString()}
+          </Typography>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <ToggleButtons
               /*
@@ -101,7 +150,19 @@ export const App = (): JSX.Element => {
                *
                * As soon the state changes, the component is triggered automatically to redraw
                */
-              items={Object.keys(machines.state).map((m) => ({ id: m, label: m }))}
+              //items={Object.keys(machines.state).map((m) => ({ id: m, label: m }))}
+              items={allMachines
+                .filter((m) => {
+                  // If lastSeen is not set we don't show the machine
+                  // since it hasn't ever emitted a heat beat
+                  if (m.lastSeen === undefined) {
+                    return false // filter if not ever seen
+                  }
+                  // We only show the machine if the latest heat beat is
+                  // not older than 1 minute
+                  return lastCheckedMachines - m.lastSeen <= 60
+                })
+                .map((m) => ({ id: m.name, label: m.name }))}
               onToggle={(value) => setMachine(value)}
             />
           </div>
