@@ -145,12 +145,8 @@ export const App = (): JSX.Element => {
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <ToggleButtons
               /*
-               * the items of the machine select came from the machine registry.
-               * I just map the keys of the registry state to the React data.
-               *
-               * As soon the state changes, the component is triggered automatically to redraw
+               * only machines which have recently emitted a heartbeat are shown
                */
-              //items={Object.keys(machines.state).map((m) => ({ id: m, label: m }))}
               items={allMachines
                 .filter((m) => {
                   // If lastSeen is not set we don't show the machine
